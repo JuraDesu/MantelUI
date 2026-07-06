@@ -32,6 +32,26 @@ namespace Mantel::UI{
         if(parent){
             Vector2 parentPos = parent->GetAbsolutePosition();
             return {position.x + parentPos.x, position.y + parentPos.y};
+            switch(anchor){
+                case TOP_LEFT:
+                    return {position.x + parentPos.x, position.y + parentPos.y};
+                case TOP_CENTER:
+                    return {position.x + parentPos.x - size.x / 2, position.y + parentPos.y};
+                case TOP_RIGHT:
+                    return {position.x + parentPos.x - size.x, position.y + parentPos.y};
+                case CENTER_LEFT:
+                    return {position.x + parentPos.x, position.y + parentPos.y - size.y / 2};
+                case CENTER:
+                    return {position.x + parentPos.x - size.x / 2, position.y + parentPos.y - size.y / 2};
+                case CENTER_RIGHT:
+                    return {position.x + parentPos.x - size.x, position.y + parentPos.y - size.y / 2};
+                case BOTTOM_LEFT:
+                    return {position.x + parentPos.x, position.y + parentPos.y - size.y};
+                case BOTTOM_CENTER:
+                    return {position.x + parentPos.x - size.x / 2, position.y + parentPos.y - size.y};
+                case BOTTOM_RIGHT:
+                    return {position.x + parentPos.x - size.x, position.y + parentPos.y - size.y};
+            }
         }
         return position;
     }

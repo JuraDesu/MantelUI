@@ -3,38 +3,45 @@
 namespace Mantel::UI{
     void Button::Draw() const{
 
-        Vector2 absPos = GetAbsolutePosition();
-
         // If recently clicked, slightly fade the button color as visual feedback
         float currentTime = GetTime();
-        Color drawColor = color;
+        Color drawColor = style.normalColor;
         if (state == PRESSED) {
-            drawColor = Fade(color, 0.5f);
+            drawColor = style.pressedColor;
         } else if (state == HOVERED) {
-            drawColor = Fade(color, 0.75f);
+            drawColor = style.hoveredColor;
         }
 
-        DrawRectangle(absPos.x, absPos.y, size.x, size.y, drawColor);
+
+        DrawRectangle(position.x, position.y, size.x, size.y, drawColor);
+        DrawRectangleLinesEx({position.x, position.y, size.x, size.y}, style.borderThickness, style.borderColor);
 
         // Draw text centered in the button
-        int textWidth = MeasureText(text.c_str(), 20);
-        int textHeight = 20; // Assuming a fixed height for simplicity
-        DrawText(text.c_str(), absPos.x + (size.x - textWidth) / 2, absPos.y + (size.y - textHeight) / 2, 20, WHITE);
+        int textHeight = size.y / 2; // Adjust text height based on button size
+        int textWidth = MeasureTextEx(defaultFont, text.c_str(), textHeight, 0).x;
+        if(textWidth > size.x){
+            textHeight = (size.x / textWidth) * textHeight; // Scale down text height to fit button width
+            textWidth = MeasureTextEx(defaultFont, text.c_str(), textHeight, 0).x; // Recalculate width
+        }
+
+        DrawTextEx(defaultFont, text.c_str(), { position.x + size.x / 2 - textWidth / 2, position.y + size.y / 2 - textHeight / 2 }, textHeight, 0, style.textColor);
     }
 
     void Button::Update(float deltaTime){
         Vector2 mousePos = GetMousePosition();
-        Vector2 absPos = GetAbsolutePosition();
+        Vector2 position = GetAbsolutePosition();
         Color drawColor = color;
         
-        bool isHovered = mousePos.x >= absPos.x && mousePos.x <= absPos.x + size.x &&
-                         mousePos.y >= absPos.y && mousePos.y <= absPos.y + size.y;
-
+        bool isHovered = mousePos.x >= position.x && mousePos.x <= position.x + size.x &&
+                         mousePos.y >= position.y && mousePos.y <= position.y + size.y;
+        float currentTime = GetTime();
         if(isHovered){
             state = HOVERED;
-            float currentTime = GetTime();
-            formula = currentTime - lastClickTime >= clickCooldown;
-            if(IsMouseButtonDown(MOUSE_LEFT_BUTTON) && onClick){
+            formula = currentTime - lastClickTime >= cooldown;
+            if(currentTime - lastClickTime < visualPressTime)state = ButtonState::PRESSED;
+            else state = ButtonState::HOVERED;
+
+            if(IsMouseButtonPressed(MOUSE_LEFT_BUTTON) && onClick){
                 state = PRESSED;
                 if (formula) {
                     lastClickTime = currentTime;
@@ -42,7 +49,8 @@ namespace Mantel::UI{
                 }
             }
         } else {
-            state = NORMAL;
+            if(currentTime - lastClickTime < visualPressTime) state = ButtonState::PRESSED;
+            else state = ButtonState(NORMAL);
         }
     }
 

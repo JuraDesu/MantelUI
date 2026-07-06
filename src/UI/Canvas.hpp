@@ -1,6 +1,6 @@
 #pragma once
 
-#include "Button.hpp"
+#include "UI.hpp"
 
 namespace Mantel::UI{
     class Canvas{
@@ -10,10 +10,9 @@ namespace Mantel::UI{
         void Update(float deltaTime);
 
         void AddElement(std::shared_ptr<UIObject> element);
+        void InitUI();
 
     private:
         std::vector<std::shared_ptr<UIObject>> rootElements;
-        Button button = Button({50, 50}, {100, 40}, RED, "Click Me");
-        Vector2 canvasSize;
     };
 }

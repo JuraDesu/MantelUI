@@ -11,8 +11,10 @@
 namespace Mantel::UI{
     class UIObject{
     public:
-        UIObject(Vector2 position, Vector2 size, Color color, bool interactive = false)
-            : position(position), size(size), color(color), parent(nullptr), id(0), zIndex(0), interactive(interactive) {}
+        UIObject(Vector2 position, Vector2 size)
+            : position(position), size(size), color(color), parent(nullptr), id(0), zIndex(0), interactive(interactive) {
+                defaultFont = LoadFontEx("assets/fonts/Electrolize-Regular.ttf", size.y/2, nullptr, 0);
+            }
         
         virtual ~UIObject() = default;
 
@@ -27,6 +29,7 @@ namespace Mantel::UI{
     private:
         int id;
         int zIndex;
+        bool visible;
 
         UIObject* parent;
         std::vector<std::shared_ptr<UIObject>> children;
@@ -40,9 +43,10 @@ namespace Mantel::UI{
         Vector2 size;
         Color color;
 
+        Font defaultFont;
+
         bool interactive;
 
-        void SetAnchor(UIAnchor anchor) { this->anchor = anchor; };
         std::vector<std::shared_ptr<UIObject>>& GetChildren() { return children; }
     };
 }
