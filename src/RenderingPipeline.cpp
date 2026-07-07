@@ -27,7 +27,6 @@ void RenderingPipeline::SetWindowIcon(const std::string& iconPath){
 
 void RenderingPipeline::Loop(){
     while (!WindowShouldClose()){
-
         canvas.Update(GetFrameTime()); // Update the canvas and its children
 
         BeginDrawing();

@@ -45,6 +45,8 @@ namespace Mantel::UI{
             Rectangle border;
             int borderThickness = 2;
             int borderRadius;
+            bool hasShadow = true;
+            Color shadowColor = {0,0,0,75};
         } style;
     };
 }

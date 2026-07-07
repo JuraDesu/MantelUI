@@ -14,6 +14,7 @@ namespace Mantel::UI{
 
 
         DrawRectangle(position.x, position.y, size.x, size.y, drawColor);
+        DrawRectangle(position.x, position.y + size.y / 2 + 10, size.x, size.y / 2 - 10, style.shadowColor);
         DrawRectangleLinesEx({position.x, position.y, size.x, size.y}, style.borderThickness, style.borderColor);
 
         // Draw text centered in the button

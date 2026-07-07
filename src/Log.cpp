@@ -4,16 +4,16 @@ void Mantel::Utils::Log::DebugLog(const std::string& message, LogLevel level){
     std::string levelStr;
     switch(level){
         case LogLevel::INFO:
-            levelStr = "[INFO]";
+            levelStr = "INFO";
             break;
         case LogLevel::WARNING:
-            levelStr = "[WARNING]";
+            levelStr = "WARNING";
             break;
         case LogLevel::ERROR:
-            levelStr = "[ERROR]";
+            levelStr = "ERROR";
             break;
         case LogLevel::OBJECT:
-            levelStr = "[OBJECT]";
+            levelStr = "OBJECT";
             break;
     }
     std::cout << levelStr << " " << message << std::endl;

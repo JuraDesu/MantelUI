@@ -2,6 +2,8 @@
 
 namespace Mantel::UI{
     void UIObject::Draw() const{
+        if(!visible) return;
+        
         Vector2 absPos = GetAbsolutePosition();
         DrawRectangle(absPos.x, absPos.y, size.x, size.y, color);
         for(const auto& child : children){
@@ -55,20 +57,4 @@ namespace Mantel::UI{
         }
         return position;
     }
-
-    /*void UIObject::GetInputEvents(MouseButton button){
-        for(auto& child : children){
-            if(child->interactive){
-                child->GetInputEvents(button);
-            }
-        }
-        if(interactive){
-            Vector2 mousePos = GetMousePosition();
-            Vector2 absPos = GetAbsolutePosition();
-            if(mousePos.x >= absPos.x && mousePos.x <= absPos.x + size.x &&
-               mousePos.y >= absPos.y && mousePos.y <= absPos.y + size.y){
-                // Handle mouse button event for this UIObject
-            }
-        }
-    }*/
 }

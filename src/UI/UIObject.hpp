@@ -12,7 +12,7 @@ namespace Mantel::UI{
     class UIObject{
     public:
         UIObject(Vector2 position, Vector2 size)
-            : position(position), size(size), color(color), parent(nullptr), id(0), zIndex(0), interactive(interactive) {
+            : position(position), size(size), color(color), parent(nullptr), id(0), zIndex(0){
                 defaultFont = LoadFontEx("assets/fonts/Electrolize-Regular.ttf", size.y/2, nullptr, 0);
             }
         
@@ -20,8 +20,8 @@ namespace Mantel::UI{
 
         virtual void Draw() const;
         virtual void Update(float deltaTime);
-        //virtual void GetInputEvents(MouseButton button);
-        //virtual void GetInputEvents(KeyboardKey key);
+        void SetVisible(bool visible) {this->visible = visible;}
+        bool IsVisible() {return visible;}
 
         void AddChild(std::shared_ptr<UIObject> child);
         Vector2 GetAbsolutePosition() const;
@@ -29,7 +29,6 @@ namespace Mantel::UI{
     private:
         int id;
         int zIndex;
-        bool visible;
 
         UIObject* parent;
         std::vector<std::shared_ptr<UIObject>> children;
@@ -45,7 +44,7 @@ namespace Mantel::UI{
 
         Font defaultFont;
 
-        bool interactive;
+        bool visible = true;
 
         std::vector<std::shared_ptr<UIObject>>& GetChildren() { return children; }
     };
